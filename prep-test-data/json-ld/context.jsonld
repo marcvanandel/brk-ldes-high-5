@@ -1,0 +1,7 @@
+{
+    "@base": "https://kadaster.nl/id/",
+    "@version": 1.1,
+    "@vocab": "https://kadaster.nl/def/",
+    "aggregateIdentifier": "@id",
+    "type": "@type"
+}

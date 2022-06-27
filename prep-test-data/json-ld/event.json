@@ -1,0 +1,52 @@
+{
+    "aggregateIdentifier": "NL.IMKAD.TIAStuk.1000",
+    "sequenceNumber": "0",
+    "type": "TIAStuk",
+    "identifier": "9b8bb266-efbe-42f9-8569-31b5dcfbf6b6",
+    "metaData": {
+      "?xml": "",
+      "metaData": {
+        "entries": {
+          "entry": [
+            { "key": "registratie.version", "value": "unspecified" },
+            { "key": "datatypes.version", "value": "1.0.184" },
+            { "key": "event.version", "value": "1.0.85" },
+            { "key": "axon.version", "value": "4.5.9" }
+          ]
+        }
+      }
+    },
+    "payload": {
+      "?xml": "",
+      "ns2:tiaStukVerwerkt": {
+        "eventIdentificatie": {
+          "aggregateId": "NL.IMKAD.TIAStuk.1000",
+          "logischTijdstip": "2018-05-02T12:00:00.000+02:00",
+          "onderhandenStuk": "NL.IMKAD.TIAStuk.1000"
+        },
+        "deelEnNummer": {
+          "soortRegister": { "code": "2", "waarde": "Onroerende Zaken" },
+          "registercode": { "code": "2", "waarde": "Hyp4" },
+          "deel": "62345",
+          "nummer": "1"
+        },
+        "statusStukOR": { "code": "3", "waarde": "Ingeschreven" },
+        "tijdstipAanbieding": "2018-05-02T12:00:00.000+02:00",
+        "tijdstipOndertekening": "2018-05-01T12:00:00.000+02:00",
+        "aardAangebodenStuk": { "code": "7", "waarde": "Overig" },
+        "ondertekenaar": {
+          "voornamen": "Nico",
+          "voorvoegsels": "de",
+          "geslachtsnaam": "Bruin",
+          "standplaats": "Apeldoorn"
+        },
+        "tekeningIngeschreven": "false",
+        "_attributes": {
+          "xmlns:ns2": "http://www.kadaster.nl/koers/registratie/event/stuk/rechtsfeit"
+        }
+      }
+    },
+    "payloadType": "nl.kadaster.koers.event.stuk.rechtsfeit.TIAStukVerwerkt",
+    "payloadRevision": "2",
+    "timestamp": "2018-05-02T13:00:00.000+02:00"
+  }
