@@ -3,7 +3,10 @@ import * as fs from "fs-extra";
 require("source-map-support/register");
 require("dotenv").config();
 
-const client = Client.get({ token: "" });
+if (!process.env["TRIPLYDB_TOKEN"]){
+  throw new Error("Must set TRIPLYDB_TOKEN environment variable. Obtain a token from a TriplyDB instance.")
+}
+const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
 async function run() {
   console.log((await (await client.getUser()).getInfo()).accountName);
   const CONTEXT = {
