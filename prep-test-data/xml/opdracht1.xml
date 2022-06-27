@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns4:registratieOpdracht xmlns:ns6="http://www.kadaster.nl/schemas/StukMetValideEssentialia/RegistratieAntwoord" xmlns:ns5="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-stuk" xmlns:ns2="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-kadastraalobject" xmlns:ns4="http://www.kadaster.nl/schemas/StukMetValideEssentialia/RegistratieOpdracht" xmlns:ns3="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-persoon">
+    <stuk xsi:type="ns5:terInschrijvingAangebodenStuk" identificatie="NL.IMKAD.TIAStuk.1000" uuid="TerInschrijvingAangebodenStuk-1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <omvat>
+            <stukdeel xsi:type="ns8:stukdeelOverdrachtEigendomEnOfBeperktRecht" uuid="Stukdeel-1" identificatie="NL.IMKAD.Stukdeel.1000" xmlns:ns8="http://www.kadaster.nl/koers/registratie/api/stukdeel/overdracht">
+                <aard>
+                    <code>606</code>
+                    <waarde>Overdracht (eigendom en/of beperkt recht)</waarde>
+                </aard>
+                <betreft>
+                    <verkrijging uuid="Verkrijging-1">
+                        <verkrijgers>
+                            <verkrijger uuid="VerkrijgerAandeel-21627">
+                                <teVerkrijgenAandeel>
+                                    <teller>1</teller>
+                                    <noemer>1</noemer>
+                                </teVerkrijgenAandeel>
+                                <door>Slager-BV</door>
+                            </verkrijger>
+                        </verkrijgers>
+                        <verdeling>
+                            <code>1</code>
+                            <waarde>Hetzelfde aandeel per verkrijger</waarde>
+                        </verdeling>
+                        <van>
+                            <recht uuid="ZakelijkRecht-1">
+                                <aard>
+                                    <code>2</code>
+                                    <waarde>Eigendom (recht van)</waarde>
+                                </aard>
+                                <aandeel>
+                                    <teller>1</teller>
+                                    <noemer>1</noemer>
+                                </aandeel>
+                                <rustOp>
+                                    <kadastraalObject>Apeldoorn-H02404</kadastraalObject>
+                                </rustOp>
+                            </recht>
+                        </van>
+                        <vervreemders>
+                            <vervreemder>Joke-Jansen</vervreemder>
+                        </vervreemders>
+                    </verkrijging>
+                </betreft>
+                <heeftKoopprijzen>
+                    <koopprijsVoorObjecten uuid="Koopprijs">
+                        <bedrag>
+                            <som>200000.00</som>
+                            <valuta>
+                                <code>EUR</code>
+                                <waarde>Euro</waarde>
+                            </valuta>
+                        </bedrag>
+                        <geldtVoor>
+                            <kadastraalObject>Apeldoorn-H02404</kadastraalObject>
+                        </geldtVoor>
+                    </koopprijsVoorObjecten>
+                </heeftKoopprijzen>
+                <heeftKoopsommen>
+                    <koopsomVoorObject uuid="Koopsom-1">
+                        <koopsom>
+                            <bedrag>
+                                <som>200000.00</som>
+                                <valuta>
+                                    <code>EUR</code>
+                                    <waarde>Euro</waarde>
+                                </valuta>
+                            </bedrag>
+                            <meerObjecten>false</meerObjecten>
+                            <koopjaar>2016</koopjaar>
+                        </koopsom>
+                        <geldtVoor>Apeldoorn-H02404</geldtVoor>
+                    </koopsomVoorObject>
+                </heeftKoopsommen>
+                <bedragTransactiesom>
+                    <som>200000.00</som>
+                    <valuta>
+                        <code>EUR</code>
+                        <waarde>Euro</waarde>
+                    </valuta>
+                </bedragTransactiesom>
+            </stukdeel>
+        </omvat>
+        <adresLocaties>
+            <adresLocatie xsi:type="ns8:objectLocatieBinnenland" uuid="Arnhemseweg-81-Vaassen" xmlns:ns8="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-adres">
+                <identificatie>NL.IMKAD.Locatie.1</identificatie>
+                <nummeraanduiding>
+                    <huisnummer>81</huisnummer>
+                    <gerelateerdeOpenbareRuimte>
+                        <openbareRuimteNaam>Arnhemseweg</openbareRuimteNaam>
+                        <gerelateerdeWoonplaats>
+                            <code>Vaassen</code>
+                            <waarde>Vaassen</waarde>
+                        </gerelateerdeWoonplaats>
+                    </gerelateerdeOpenbareRuimte>
+                </nummeraanduiding>
+            </adresLocatie>
+            <adresLocatie xsi:type="ns8:objectLocatieBinnenland" uuid="GroteKerkhof-1-Deventer" xmlns:ns8="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-adres">
+                <identificatie>NL.IMKAD.Locatie.6</identificatie>
+                <nummeraanduiding>
+                    <huisnummer>12345</huisnummer>
+                    <huisnummertoevoeging>ABCD</huisnummertoevoeging>
+                    <postcode>7411KT</postcode>
+                    <gerelateerdeOpenbareRuimte>
+                        <openbareRuimteNaam>Grote Kerkhof</openbareRuimteNaam>
+                        <gerelateerdeWoonplaats>
+                            <code>Deventer</code>
+                            <waarde>Deventer</waarde>
+                        </gerelateerdeWoonplaats>
+                    </gerelateerdeOpenbareRuimte>
+                </nummeraanduiding>
+            </adresLocatie>
+            <adresLocatie xsi:type="ns8:objectLocatieBinnenland" uuid="Hoofdstraat-1-Vaassen" xmlns:ns8="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-adres">
+                <identificatie>NL.IMKAD.Locatie.2</identificatie>
+                <nummeraanduiding>
+                    <huisnummer>1</huisnummer>
+                    <huisnummertoevoeging>A</huisnummertoevoeging>
+                    <postcode>7323AA</postcode>
+                    <gerelateerdeOpenbareRuimte>
+                        <openbareRuimteNaam>Hoofdstraat</openbareRuimteNaam>
+                        <gerelateerdeWoonplaats>
+                            <code>Vaassen</code>
+                            <waarde>Vaassen</waarde>
+                        </gerelateerdeWoonplaats>
+                    </gerelateerdeOpenbareRuimte>
+                </nummeraanduiding>
+            </adresLocatie>
+        </adresLocaties>
+        <kadastraalObjecten>
+            <kadastraalObject xsi:type="ns8:perceel" uuid="Apeldoorn-H02404" xmlns:ns8="http://www.kadaster.nl/schemas/StukMetValideEssentialia/CDMKAD-onroerendezaak">
+                <betreft>
+                    <locatie>GroteKerkhof-1-Deventer</locatie>
+                </betreft>
+                <omschrijvingKadastraalObject>huis met tuin</omschrijvingKadastraalObject>
+                <kadastraleAanduiding>
+                    <kadastraleGemeente>
+                        <code>50</code>
+                        <waarde>Apeldoorn</waarde>
+                    </kadastraleGemeente>
+                    <sectie>H</sectie>
+                    <perceelNummer>2404</perceelNummer>
+                </kadastraleAanduiding>
+                <aardCultuurOnbebouwd>
+                    <code>34</code>
+                    <waarde>Parkeren</waarde>
+                </aardCultuurOnbebouwd>
+                <aardCultuurBebouwd>
+                    <code>11</code>
+                    <waarde>Wonen</waarde>
+                </aardCultuurBebouwd>
+                <kadastraleGrootte>
+                    <soortGrootte>
+                        <code>1</code>
+                        <waarde>Vastgesteld</waarde>
+                    </soortGrootte>
+                    <waarde>
+                        <hectare>0</hectare>
+                        <are>10</are>
+                        <centiare>0</centiare>
+                    </waarde>
+                </kadastraleGrootte>
+                <plaatscoordinaten>155698.552 285087.847</plaatscoordinaten>
+            </kadastraalObject>
+        </kadastraalObjecten>
+        <personen>
+            <persoon xsi:type="ns3:natuurlijkPersoon" uuid="Joke-Jansen" identificatie="NL.IMKAD.Persoon.50">
+                <woonlocatie>Arnhemseweg-81-Vaassen</woonlocatie>
+                <geslacht>
+                    <geslachtsaanduiding>
+                        <code>2</code>
+                        <waarde>Vrouw</waarde>
+                    </geslachtsaanduiding>
+                    <geslachtsaanduidingAanschrijving>Mevrouw</geslachtsaanduidingAanschrijving>
+                </geslacht>
+                <naam>
+                    <geslachtsnaam>Jansen</geslachtsnaam>
+                    <voornamen>Joke</voornamen>
+                </naam>
+                <geboorte>
+                    <geboortedatum>1980-05-28</geboortedatum>
+                    <geboorteplaats>Zwolle</geboorteplaats>
+                </geboorte>
+                <burgerlijkeStaat>
+                    <code>2</code>
+                    <waarde>Ongehuwd en geen geregistreerd partnerschap</waarde>
+                </burgerlijkeStaat>
+            </persoon>
+            <persoon xsi:type="ns3:nietNatuurlijkPersoon" uuid="Slager-BV" identificatie="NL.IMKAD.Persoon.1">
+                <woonlocatie>Hoofdstraat-1-Vaassen</woonlocatie>
+                <statutaireNaam>Slager B.V. incorporated</statutaireNaam>
+                <rechtsvorm>
+                    <code>2</code>
+                    <waarde>Besloten vennootschap</waarde>
+                </rechtsvorm>
+                <statutaireZetel>Amsterdam</statutaireZetel>
+            </persoon>
+        </personen>
+        <deelEnNummer>
+            <soortRegister>
+                <code>2</code>
+                <waarde>Onroerende Zaken</waarde>
+            </soortRegister>
+            <registercode>
+                <code>2</code>
+                <waarde>Hyp4</waarde>
+            </registercode>
+            <deel>62345</deel>
+            <nummer>1</nummer>
+        </deelEnNummer>
+        <tijdstipAanbieding>2018-05-02T12:00:00.000+02:00</tijdstipAanbieding>
+        <tijdstipOndertekening>2018-05-01T12:00:00.000+02:00</tijdstipOndertekening>
+        <statusStukOR>
+            <code>3</code>
+            <waarde>Ingeschreven</waarde>
+        </statusStukOR>
+        <isOpgemaaktDoor>
+            <voornamen>Nico</voornamen>
+            <voorvoegsels>de</voorvoegsels>
+            <geslachtsnaam>Bruin</geslachtsnaam>
+            <standplaats>Apeldoorn</standplaats>
+        </isOpgemaaktDoor>
+        <uitvalOpVerzoek>false</uitvalOpVerzoek>
+    </stuk>
+</ns4:registratieOpdracht>

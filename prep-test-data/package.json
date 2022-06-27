@@ -1,0 +1,22 @@
+{
+  "name": "prep-ldes-data",
+  "author": {
+    "name": "Marc van Andel",
+    "email": "marc.vanandel@kadaster.nl"
+  },
+  "scripts": {
+    "compile": "npx tsc",
+    "watch": "npx tsc -w",
+    "hello": "npm run compile && node dist/hello.js",
+    "conv": "npm run compile && node dist/convertXml2Json.js"
+  },
+  "devDependencies": {
+    "@types/he": "^1.1.2",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@types/node": "^18.0.0",
+    "he": "^1.2.0",
+    "txml": "^5.1.1"
+  }
+}
