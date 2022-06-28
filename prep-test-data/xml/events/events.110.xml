@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<events>
+    <event>
+        <aggregateIdentifier>NL.IMKAD.Kadasterstuk.1000</aggregateIdentifier>
+        <sequenceNumber>0</sequenceNumber>
+        <type>Kadasterstuk</type>
+        <identifier>675fe3a7-94fc-4f82-876d-c69379d2cab9</identifier>
+        <metaData>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;metaData&gt;&lt;entries&gt;&lt;entry&gt;&lt;key&gt;registratie.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;unspecified&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;datatypes.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.184&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;event.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.85&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;axon.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;4.5.9&lt;/value&gt;&lt;/entry&gt;&lt;/entries&gt;&lt;/metaData&gt;</metaData>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ns2:kadasterstukVerwerkt xmlns:ns2="http://www.kadaster.nl/koers/registratie/event/stuk/rechtsfeit"&gt;&lt;eventIdentificatie&gt;&lt;aggregateId&gt;NL.IMKAD.Kadasterstuk.1000&lt;/aggregateId&gt;&lt;logischTijdstip&gt;2019-06-01T12:00:00.000+02:00&lt;/logischTijdstip&gt;&lt;onderhandenStuk&gt;NL.IMKAD.Kadasterstuk.1000&lt;/onderhandenStuk&gt;&lt;/eventIdentificatie&gt;&lt;indicatieCorrectie&gt;false&lt;/indicatieCorrectie&gt;&lt;/ns2:kadasterstukVerwerkt&gt;</payload>
+        <payloadType>nl.kadaster.koers.event.stuk.rechtsfeit.KadasterstukVerwerkt</payloadType>
+        <payloadRevision>1</payloadRevision>
+        <timestamp>2019-06-01T13:00:00.000+02:00</timestamp>
+    </event>
+    <event>
+        <aggregateIdentifier>NL.IMKAD.Kadasterstuk.1000</aggregateIdentifier>
+        <sequenceNumber>1</sequenceNumber>
+        <type>Kadasterstuk</type>
+        <identifier>2e89ab72-0b86-4968-92fa-55fd85c995c3</identifier>
+        <metaData>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;metaData&gt;&lt;entries&gt;&lt;entry&gt;&lt;key&gt;registratie.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;unspecified&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;datatypes.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.184&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;event.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.85&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;axon.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;4.5.9&lt;/value&gt;&lt;/entry&gt;&lt;/entries&gt;&lt;/metaData&gt;</metaData>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ns2:stukdeelOnderkend xmlns:ns2="http://www.kadaster.nl/koers/registratie/event/stuk/rechtsfeit"&gt;&lt;eventIdentificatie&gt;&lt;aggregateId&gt;NL.IMKAD.Kadasterstuk.1000&lt;/aggregateId&gt;&lt;logischTijdstip&gt;2019-06-01T12:00:00.000+02:00&lt;/logischTijdstip&gt;&lt;onderhandenStuk&gt;NL.IMKAD.Kadasterstuk.1000&lt;/onderhandenStuk&gt;&lt;onderhandenStukdeel&gt;NL.IMKAD.Stukdeel.1000&lt;/onderhandenStukdeel&gt;&lt;formeelStuk&gt;NL.IMKAD.Kadasterstuk.1000&lt;/formeelStuk&gt;&lt;formeelStukdeel&gt;NL.IMKAD.Stukdeel.1000&lt;/formeelStukdeel&gt;&lt;/eventIdentificatie&gt;&lt;stukdeelId&gt;NL.IMKAD.Stukdeel.1000&lt;/stukdeelId&gt;&lt;aard&gt;&lt;code&gt;526&lt;/code&gt;&lt;waarde&gt;Herstel BRK&lt;/waarde&gt;&lt;/aard&gt;&lt;/ns2:stukdeelOnderkend&gt;</payload>
+        <payloadType>nl.kadaster.koers.event.stuk.rechtsfeit.StukdeelOnderkend</payloadType>
+        <payloadRevision>1</payloadRevision>
+        <timestamp>2019-06-01T13:00:00.000+02:00</timestamp>
+    </event>
+    <event>
+        <aggregateIdentifier>NL.IMKAD.TIAStuk.116</aggregateIdentifier>
+        <sequenceNumber>3</sequenceNumber>
+        <type>TIAStuk</type>
+        <identifier>6d8b4a3f-808c-4de7-aab8-d6520e5794c5</identifier>
+        <metaData>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;metaData&gt;&lt;entries&gt;&lt;entry&gt;&lt;key&gt;registratie.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;unspecified&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;datatypes.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.184&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;event.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.85&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;axon.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;4.5.9&lt;/value&gt;&lt;/entry&gt;&lt;/entries&gt;&lt;/metaData&gt;</metaData>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ns2:bedragHypothecaireZekerheidsstellingGecorrigeerd xmlns:ns2="http://www.kadaster.nl/koers/registratie/event/stuk/correctie"&gt;&lt;eventIdentificatie&gt;&lt;aggregateId&gt;NL.IMKAD.TIAStuk.116&lt;/aggregateId&gt;&lt;logischTijdstip&gt;2017-07-28T12:16:58.000+02:00&lt;/logischTijdstip&gt;&lt;onderhandenStuk&gt;NL.IMKAD.Kadasterstuk.1000&lt;/onderhandenStuk&gt;&lt;onderhandenStukdeel&gt;NL.IMKAD.Stukdeel.1000&lt;/onderhandenStukdeel&gt;&lt;formeelStuk&gt;NL.IMKAD.TIAStuk.116&lt;/formeelStuk&gt;&lt;formeelStukdeel&gt;NL.IMKAD.Stukdeel.117&lt;/formeelStukdeel&gt;&lt;gecorrigeerdStuk&gt;NL.IMKAD.TIAStuk.116&lt;/gecorrigeerdStuk&gt;&lt;gecorrigeerdStukdeel&gt;NL.IMKAD.Stukdeel.117&lt;/gecorrigeerdStukdeel&gt;&lt;herstelActie&gt;&lt;code&gt;4&lt;/code&gt;&lt;waarde&gt;Wijzigen&lt;/waarde&gt;&lt;/herstelActie&gt;&lt;/eventIdentificatie&gt;&lt;stukdeelId&gt;NL.IMKAD.Stukdeel.117&lt;/stukdeelId&gt;&lt;bedragHypothecaireZekerheidsstelling&gt;&lt;som&gt;1000000.00&lt;/som&gt;&lt;valuta&gt;&lt;code&gt;EUR&lt;/code&gt;&lt;waarde&gt;Euro&lt;/waarde&gt;&lt;/valuta&gt;&lt;/bedragHypothecaireZekerheidsstelling&gt;&lt;/ns2:bedragHypothecaireZekerheidsstellingGecorrigeerd&gt;</payload>
+        <payloadType>nl.kadaster.koers.event.stuk.correctie.BedragHypothecaireZekerheidsstellingGecorrigeerd</payloadType>
+        <payloadRevision>1</payloadRevision>
+        <timestamp>2019-06-01T13:00:00.000+02:00</timestamp>
+    </event>
+    <event>
+        <aggregateIdentifier>NL.IMKAD.Kadasterstuk.1000</aggregateIdentifier>
+        <sequenceNumber>2</sequenceNumber>
+        <type>Kadasterstuk</type>
+        <identifier>d68e5ad1-896d-47bd-a10b-f31869e3ba62</identifier>
+        <metaData>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;metaData&gt;&lt;entries&gt;&lt;entry&gt;&lt;key&gt;registratie.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;unspecified&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;datatypes.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.184&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;event.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;1.0.85&lt;/value&gt;&lt;/entry&gt;&lt;entry&gt;&lt;key&gt;axon.version&lt;/key&gt;&lt;value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;4.5.9&lt;/value&gt;&lt;/entry&gt;&lt;/entries&gt;&lt;/metaData&gt;</metaData>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ns2:stukTransactieAfgerond xmlns:ns2="http://www.kadaster.nl/koers/registratie/event/stuk/technisch"&gt;&lt;eventIdentificatie&gt;&lt;aggregateId&gt;NL.IMKAD.Kadasterstuk.1000&lt;/aggregateId&gt;&lt;logischTijdstip&gt;2019-06-01T12:00:00.000+02:00&lt;/logischTijdstip&gt;&lt;onderhandenStuk&gt;NL.IMKAD.Kadasterstuk.1000&lt;/onderhandenStuk&gt;&lt;/eventIdentificatie&gt;&lt;verwerkingsResultaat&gt;VOLLEDIG_VERWERKT_STUK&lt;/verwerkingsResultaat&gt;&lt;stukUitgesloten&gt;false&lt;/stukUitgesloten&gt;&lt;/ns2:stukTransactieAfgerond&gt;</payload>
+        <payloadType>nl.kadaster.koers.event.stuk.technisch.StukTransactieAfgerond</payloadType>
+        <payloadRevision>2</payloadRevision>
+        <timestamp>2019-06-01T13:00:00.000+02:00</timestamp>
+    </event>
+</events>
