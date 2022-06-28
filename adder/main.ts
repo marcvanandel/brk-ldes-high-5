@@ -31,7 +31,7 @@ async function run() {
   });
   
   console.log(background_files);
-  await dataset.importFromFiles(background_files);
+  await dataset.importFromFiles(background_files,{overwriteAll:true});
 }
 
 run().catch((e) => {
