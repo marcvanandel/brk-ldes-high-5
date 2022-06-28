@@ -25,15 +25,17 @@ export async function upload(sourceFolder: string, msDelay: number = 0) {
   // select dataset
   const dataset = await account.getDataset("koers");
 
+  // await dataset.clear("graphs");
+
   // upload to dataset
   if (msDelay == 0) {
     console.log(`uploading files (without delay)`);
-    await dataset.importFromFiles(files, { overwriteAll: true });
+    await dataset.importFromFiles(files);
   } else {
     for (const file of files) {
       let curFile = `${sourceFolder}/${file}`;
       console.log(curFile);
-      await dataset.importFromFiles([curFile], { overwriteAll: true });
+      await dataset.importFromFiles([curFile]);
       await delay(msDelay);
     }
   }
