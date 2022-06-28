@@ -2,47 +2,58 @@ import {
   EventStream,
   LDESClient,
   newEngine,
-  State,
+  State
 } from "@treecg/actor-init-ldes-client";
 
-async function subscribe(url: string) {}
-
-async function processEventStream() {}
-
-function toBeSplitUp() {
+export class EventProcessor {
   // load previous state here (e.g. load from a json file on disk)
-  const previousState: State = {
+  private previousState: State = {
     bookkeeper: {},
     memberBuffer: "",
     processedURIs: "",
   };
+  private eventstreamSync?: EventStream;
 
-  try {
-    let url =
-      "https://apidg.gent.be/opendata/adlib2eventstream/v1/dmg/objecten";
-    let options = {
+  constructor(
+    private readonly url: string,
+    private readonly options: Object = {
       representation: "Quads", //Object or Quads
       emitMemberOnce: true,
       disableSynchronization: false,
-    };
+    }
+  ) {}
+
+  async subscribe() {
     let LDESClient = newEngine() as LDESClient;
 
-    let eventstreamSync: EventStream;
-    if (previousState === undefined || previousState === null) {
+    console.log(`subscribing to url: [${this.url}]`);
+    if (this.previousState === undefined || this.previousState === null) {
       // if you don't have a previous state, the created EventStream will start from scratch
-      eventstreamSync = LDESClient.createReadStream(url, options);
+      this.eventstreamSync = LDESClient.createReadStream(
+        this.url,
+        this.options
+      );
     } else {
       // if you have a previous state, use it to create the EventStream
-      eventstreamSync = LDESClient.createReadStream(
-        url,
-        options,
-        previousState
+      this.eventstreamSync = LDESClient.createReadStream(
+        this.url,
+        this.options,
+        this.previousState
       );
+    }
+  }
+
+  async listen() {
+    let eventstreamSync: EventStream;
+    if (this.eventstreamSync === undefined) {
+      return;
+    } else {
+      eventstreamSync = this.eventstreamSync;
     }
 
     // If the run takes longer than x minutes, pause the LDES Client
     const timeoutms = 3600000; // amount of milliseconds before timeout
-    const timeout = setTimeout(() => eventstreamSync.pause(), timeoutms);
+    const timeout = setTimeout(() => this.eventstreamSync?.pause(), timeoutms);
 
     eventstreamSync.on("data", (member) => {
       console.log(member);
@@ -72,7 +83,5 @@ function toBeSplitUp() {
       timeout.unref();
       console.log("No more data!");
     });
-  } catch (e) {
-    console.error(e);
   }
 }

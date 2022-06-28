@@ -1,4 +1,5 @@
 import express from "express";
+import { EventProcessor } from "./eventProcessor";
 
 const app = express();
 const port = 3000; // default port to listen
@@ -9,6 +10,12 @@ app.get("/", (req, res) => {
 });
 
 // start the Express server
+const eventProcessor = new EventProcessor(
+  "https://ldes.triply.cc/high-5-ldes/koers/feed/"
+);
+eventProcessor.subscribe();
+eventProcessor.listen();
+
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);
 });
