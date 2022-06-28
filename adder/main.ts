@@ -21,7 +21,6 @@ async function delay(ms:any) {
 
 async function run() {
   const background_files:string[] = [] 
-  const event_files:string[] = []
   const context = await fs.readJson(CONTEXT_PATH);
   const data = await fs.readJson(DATA_PATH);
   const jsonLd = { "@context": context, data: data };
@@ -38,14 +37,15 @@ async function run() {
   await dataset.importFromFiles(background_files,{overwriteAll:true});
 
   let run = async ()=>{
-    fs.readdirSync("../prep-test-data/json-ld").forEach(file => {
+      const files = await fs.promises.readdir("../prep-test-data/json-ld");
+      for( const file of files ) {
       if (file.startsWith('event')){
-        event_files.push("../prep-test-data/json-ld/"+file)
+        let event = "../prep-test-data/json-ld/"+file
+        console.log(event);
+        await dataset.importFromFiles([event],{overwriteAll:true});
+        await delay(20000);
       };
-    });
-    console.log(event_files);
-    await dataset.importFromFiles(event_files,{overwriteAll:true});
-    await delay(2000);
+    };
   };
   run();
 };
