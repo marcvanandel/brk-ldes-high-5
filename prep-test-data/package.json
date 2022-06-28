@@ -4,11 +4,12 @@
     "name": "Marc van Andel",
     "email": "marc.vanandel@kadaster.nl"
   },
+  "license": "MIT",
   "scripts": {
-    "compile": "npx tsc",
-    "watch": "npx tsc -w",
-    "hello": "npm run compile && node dist/hello.js",
-    "conv": "npm run compile && node dist/convertXml2Json.js"
+    "build": "./node_modules/.bin/tsc",
+    "watch": "yarn run build -w",
+    "hello": "yarn run build && node dist/hello.js",
+    "conv": "yarn run build && node dist/convertXml2Json.js"
   },
   "devDependencies": {
     "@types/he": "^1.1.2",
