@@ -28,7 +28,7 @@ export async function upload(sourceFolder: string, msDelay: number = 0) {
   // upload to dataset
   if (msDelay == 0) {
     console.log(`uploading files (without delay)`);
-    // await dataset.importFromFiles(files, { overwriteAll: true });
+    await dataset.importFromFiles(files, { overwriteAll: true });
   } else {
     for (const file of files) {
       let curFile = `${sourceFolder}/${file}`;
