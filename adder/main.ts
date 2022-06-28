@@ -17,16 +17,16 @@ async function run() {
     type: "@type",
   };
   let jsonContent = JSON.parse(
-    await fs.readFileSync("./achtergrond.json", "utf-8")
+    await fs.readFileSync("../prep-test-data/json/achtergrond.json", "utf-8")
   );
   jsonContent = jsonContent.map((item: any) => {
     item["@context"] = CONTEXT;
     return item;
   });
-  const jsonld = "../prep-test-data/json/achtergrond.json-ld";
+  const jsonld = "../prep-test-data/json-ld/achtergrond.json-ld";
   await fs.writeFileSync(jsonld, JSON.stringify(jsonContent));
   const account = await client.getAccount("bob-scheer");
-  const dataset = await account.getDataset("ldes_high5");
+  const dataset = await account.getDataset("ldeshigh5");
   await dataset.importFromFiles([jsonld]);
 }
 
