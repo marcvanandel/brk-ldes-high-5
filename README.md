@@ -34,7 +34,7 @@ Then upload all generated jsonld files:
 
 ```bash
 yarn upload-achtergrond       > uploads all achtergrond jsonld files
-yarn process-events           > uploads all events jsonld files with delays to simulate production
+yarn upload-events            > uploads all events jsonld files with delays to simulate production
 ```
 
 ## From LDES Server to LDES Client

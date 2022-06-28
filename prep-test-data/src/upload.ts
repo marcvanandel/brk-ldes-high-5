@@ -1,6 +1,8 @@
 import Client from "@triply/triplydb";
 import * as fs from "fs-extra";
 
+require("dotenv").config();
+
 if (!process.env["TRIPLYDB_TOKEN"]) {
   throw new Error(
     "Must set TRIPLYDB_TOKEN environment variable. Obtain a token from a TriplyDB instance."

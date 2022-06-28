@@ -10,7 +10,8 @@
     "watch": "yarn run build -w",
     "conv2json": "yarn run build && node dist/convertXml2Json.js",
     "conv2ld": "yarn run build && node dist/convertJson2JsonLD.js",
-    "upload-achtergrond": "yarn run build && node dist/uploadAchtergrond.js"
+    "upload-achtergrond": "yarn run build && node dist/uploadAchtergrond.js",
+    "upload-events": "yarn run build && node dist/uploadEvents.js"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
