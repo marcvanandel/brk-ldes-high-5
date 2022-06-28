@@ -10,6 +10,27 @@ We use JSON-LD for this:
 
 ## From linked data to LDES Server
 
+First prepare the test data.
+
+```bash
+cd prep-test-data
+```
+
+First install all dependencies:
+
+```bash
+yarn install
+```
+
+Run package goals:
+
+```bash
+yarn build                > builds (compiles) all TypeScript files
+yarn conv2json            > step 1: converts the XML to JSON
+yarn conv2ld              > step 2: converts the JSON to JSON-LD
+```
+
+
 ## From LDES Server to LDES Client
 
 - Try out the following LDES Client:
