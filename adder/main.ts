@@ -3,31 +3,26 @@ import * as fs from "fs-extra";
 require("source-map-support/register");
 require("dotenv").config();
 
-if (!process.env["TRIPLYDB_TOKEN"]){
-  throw new Error("Must set TRIPLYDB_TOKEN environment variable. Obtain a token from a TriplyDB instance.")
-}
-const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
-async function run() {
-  console.log((await (await client.getUser()).getInfo()).accountName);
-  const CONTEXT = {
-    "@base": "https://kadaster.nl/id/",
-    "@version": 1.1,
-    "@vocab": "https://kadaster.nl/def/",
-    aggregateIdentifier: "@id",
-    type: "@type",
-  };
-  let jsonContent = JSON.parse(
-    await fs.readFileSync("../prep-test-data/json/achtergrond.json", "utf-8")
+if (!process.env["TRIPLYDB_TOKEN"]) {
+  throw new Error(
+    "Must set TRIPLYDB_TOKEN environment variable. Obtain a token from a TriplyDB instance."
   );
-  jsonContent = jsonContent.map((item: any) => {
-    item["@context"] = CONTEXT;
-    return item;
-  });
-  const jsonld = "../prep-test-data/json-ld/achtergrond.json-ld";
-  await fs.writeFileSync(jsonld, JSON.stringify(jsonContent));
+}
+
+const CONTEXT_PATH = "../prep-test-data/json-ld/context.jsonld";
+const DATA_PATH = "../prep-test-data/json/achtergrond.json";
+const OUTPUT_PATH = "../prep-test-data/json-ld/achtergrond.json-ld";
+
+const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
+
+async function run() {
+  const context = await fs.readJson(CONTEXT_PATH);
+  const data = await fs.readJson(DATA_PATH);
+  const jsonLd = { "@context": context, data: data };
+  await fs.writeJson(OUTPUT_PATH, jsonLd);
   const account = await client.getAccount("bob-scheer");
   const dataset = await account.getDataset("ldeshigh5");
-  await dataset.importFromFiles([jsonld]);
+  await dataset.importFromFiles([OUTPUT_PATH]);
 }
 
 run().catch((e) => {
