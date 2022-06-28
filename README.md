@@ -14,3 +14,13 @@ We use JSON-LD for this:
 
 - Try out the following LDES Client:
   https://github.com/TREEcg/event-stream-client/tree/main/packages/actor-init-ldes-client
+
+## Formalities
+
+Formalities in short. For proper continuation of this repo this needs to be expanded.
+
+This repo is originally licensed under [MIT License](LICENSE.md).
+This might change when this work is being improved and accepted towards more mainstream implementation at Kadaster.
+
+We are inclusive and will not judge based on any specifics.
+We will be polite and handle with respect to humans and nature.
