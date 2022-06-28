@@ -9,7 +9,6 @@
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "watch": "yarn build -w",
-    "hello": "yarn build && node dist/hello.js",
     "prestart": "yarn build",
     "start": "node ."
   },
