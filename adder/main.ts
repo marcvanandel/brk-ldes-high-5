@@ -15,6 +15,10 @@ const OUTPUT_PATH = "../prep-test-data/json-ld/achtergrond.jsonld";
 
 const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
 
+async function delay(ms:any) {
+  return await new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function run() {
   const background_files:string[] = [] 
   const context = await fs.readJson(CONTEXT_PATH);
@@ -29,10 +33,23 @@ async function run() {
       background_files.push("../prep-test-data/json-ld/"+file)
     };
   });
-  
   console.log(background_files);
   await dataset.importFromFiles(background_files,{overwriteAll:true});
-}
+
+  let run = async ()=>{
+      const files = await fs.promises.readdir("../prep-test-data/json-ld");
+      for( const file of files ) {
+      if (file.startsWith('event')){
+        let event = "../prep-test-data/json-ld/"+file
+        console.log(event);
+        await dataset.importFromFiles([event],{overwriteAll:true});
+        await delay(20000);
+      };
+    };
+  };
+  run();
+};
+
 
 run().catch((e) => {
   console.error(e);
