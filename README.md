@@ -30,6 +30,12 @@ yarn conv2json            > step 1: converts the XML to JSON
 yarn conv2ld              > step 2: converts the JSON to JSON-LD
 ```
 
+Then upload all generated jsonld files:
+
+```bash
+yarn upload-achtergrond       > uploads all achtergrond jsonld files
+yarn process-events           > uploads all events jsonld files with delays to simulate production
+```
 
 ## From LDES Server to LDES Client
 
