@@ -11,7 +11,7 @@ if (!process.env["TRIPLYDB_TOKEN"]) {
 
 const CONTEXT_PATH = "../prep-test-data/json-ld/context.jsonld";
 const DATA_PATH = "../prep-test-data/json/achtergrond.json";
-const OUTPUT_PATH = "../prep-test-data/json-ld/achtergrond.json-ld";
+const OUTPUT_PATH = "../prep-test-data/json-ld/achtergrond.jsonld";
 
 const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
 
