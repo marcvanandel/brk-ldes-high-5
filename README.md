@@ -15,6 +15,14 @@ We use JSON-LD for this:
 - Try out the following LDES Client:
   https://github.com/TREEcg/event-stream-client/tree/main/packages/actor-init-ldes-client
 
+Questions:
+- What makes the LDES endpoint different from a regular LD endpoint?
+  Answers:
+  > - Semantic navigation /pagination on the tree collection is added
+- What makes the LDES client different from a regular LD client?
+  Answers:
+  > - LDES client makes the use of the semantic navigation available to programmers
+
 ## Formalities
 
 Formalities in short. For proper continuation of this repo this needs to be expanded.
