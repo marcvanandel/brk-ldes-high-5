@@ -9,14 +9,17 @@
     "build": "./node_modules/.bin/tsc",
     "watch": "yarn run build -w",
     "hello": "yarn run build && node dist/hello.js",
-    "conv": "yarn run build && node dist/convertXml2Json.js"
+    "conv2json": "yarn run build && node dist/convertXml2Json.js",
+    "conv2ld": "yarn run build && node dist/convertJson2JsonLD.js"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
     "@types/he": "^1.1.2",
     "typescript": "^4.7.4"
   },
   "dependencies": {
     "@types/node": "^18.0.0",
+    "fs-extra": "^10.1.0",
     "he": "^1.2.0",
     "txml": "^5.1.1"
   }

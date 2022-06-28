@@ -1,4 +1,4 @@
-export interface KoersEvent {
+export interface KoersEventMessage {
     aggregateIdentifier: string,
     sequenceNumber: string,
     type: string,

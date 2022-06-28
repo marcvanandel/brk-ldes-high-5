@@ -1,16 +1,19 @@
-# BRK LDES High-5
+# BRK LDES | Prep LDES Data
 
-This repo contains all code, test data and examples for the High-5 to prove (technically) Linked Data Event Stream using BRK events.
+This repo contains the code used to prepare the data for the BRK LDES, Base Registry Kadaster (of The Netherlands) Linked Data Event Stream.
 
-## From JSON to linked data
+It is set up based on [this tutorial](https://www.digitalocean.com/community/tutorials/typescript-new-project).
 
-We use JSON-LD for this:
-- W3C standard (version 1.1): https://www.w3.org/TR/json-ld11/
-- Online playground: https://json-ld.org/playground/
+First install all dependencies:
 
-## From linked data to LDES Server
+```bash
+yarn install
+```
 
-## From LDES Server to LDES Client
+Run package goals:
 
-- Try out the following LDES Client:
-  https://github.com/TREEcg/event-stream-client/tree/main/packages/actor-init-ldes-client
+```bash
+yarn build                > builds (compiles) all TypeScript files
+yarn conv2json            > converts the XML to JSON
+yarn conv2ld              > converts the JSON to JSON-LD
+```
