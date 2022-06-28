@@ -19,7 +19,7 @@ cd prep-test-data
 First install all dependencies:
 
 ```bash
-yarn install
+yarn
 ```
 
 Run package goals:
