@@ -9,10 +9,6 @@ if (!process.env["TRIPLYDB_TOKEN"]) {
   );
 }
 
-const CONTEXT_PATH = "../prep-test-data/context-json-ld/context.jsonld";
-const DATA_PATH = "../prep-test-data/json/achtergrond.json";
-const OUTPUT_PATH = "../prep-test-data/json-ld/achtergrond.jsonld";
-
 const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
 
 async function delay(ms:any) {
@@ -21,29 +17,26 @@ async function delay(ms:any) {
 
 async function run() {
   const background_files:string[] = [] 
-  const context = await fs.readJson(CONTEXT_PATH);
-  const data = await fs.readJson(DATA_PATH);
-  const jsonLd = { "@context": context, data: data };
-  await fs.writeJson(OUTPUT_PATH, jsonLd);
+
   const account = await client.getAccount("high-5-ldes");
   const dataset = await account.getDataset("koers");
 
-  fs.readdirSync("../prep-test-data/json-ld").forEach(file => {
+  fs.readdirSync("../prep-test-data/output/achtergrond-ld").forEach(file => {
     if (file.startsWith('achtergrond')){
-      background_files.push("../prep-test-data/json-ld/"+file)
+      background_files.push("../prep-test-data/output/achtergrond-ld/"+file)
     };
   });
   console.log(background_files);
-  await dataset.importFromFiles(background_files,{overwriteAll:true});
+  await dataset.importFromFiles(background_files);
 
   let run = async ()=>{
-      const files = await fs.promises.readdir("../prep-test-data/json-ld");
+      const files = await fs.promises.readdir("../prep-test-data/output/events-ld");
       for( const file of files ) {
       if (file.startsWith('event')){
-        let event = "../prep-test-data/json-ld/"+file
+        let event = "../prep-test-data/output/events-ld/"+file
         console.log(event);
-        await dataset.importFromFiles([event],{overwriteAll:true});
-        await delay(20000);
+        await dataset.importFromFiles([event]);
+        await delay(50);
       };
     };
   };
