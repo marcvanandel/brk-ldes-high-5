@@ -17,7 +17,7 @@ export async function delay(ms: any) {
 
 export async function upload(sourceFolder: string, msDelay: number = 0) {
   // Get the files as an array
-  const files = await fs.promises.readdir(sourceFolder);
+  const files = (await fs.promises.readdir(sourceFolder)).map(filename=>sourceFolder+'/'+filename);
 
   // use account
   const account = await client.getAccount("high-5-ldes");
@@ -31,9 +31,8 @@ export async function upload(sourceFolder: string, msDelay: number = 0) {
     await dataset.importFromFiles(files);
   } else {
     for (const file of files) {
-      let curFile = `${sourceFolder}/${file}`;
-      console.log(curFile);
-      await dataset.importFromFiles([curFile]);
+      console.log(file);
+      await dataset.importFromFiles([file]);
       await delay(msDelay);
     }
   }
