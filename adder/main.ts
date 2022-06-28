@@ -20,8 +20,8 @@ async function run() {
   const data = await fs.readJson(DATA_PATH);
   const jsonLd = { "@context": context, data: data };
   await fs.writeJson(OUTPUT_PATH, jsonLd);
-  const account = await client.getAccount("bob-scheer");
-  const dataset = await account.getDataset("ldeshigh5");
+  const account = await client.getAccount("high-5-ldes");
+  const dataset = await account.getDataset("koers");
   await dataset.importFromFiles([OUTPUT_PATH]);
 }
 
