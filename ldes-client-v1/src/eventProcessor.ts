@@ -7,11 +7,12 @@ import {
 
 export class EventProcessor {
   // load previous state here (e.g. load from a json file on disk)
-  private previousState: State = {
-    bookkeeper: {},
-    memberBuffer: "",
-    processedURIs: "",
-  };
+  // private previousState: State = {
+  //   bookkeeper: {},
+  //   memberBuffer: "",
+  //   processedURIs: "",
+  // };
+  private previousState?: State = undefined;
   private eventstreamSync?: EventStream;
 
   constructor(
