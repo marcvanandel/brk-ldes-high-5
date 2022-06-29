@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 
 // start the Express server
 const eventProcessor = new EventProcessor(
-  "https://ldes.triply.cc/high-5-ldes/koers/feed/2018-10-28T13:42:34.000+01:00/until/2018-10-28T14:42:34.000+01:00"
+  "https://ldes.triply.cc/high-5-ldes/koers/feed/2016-03-31T07:00:00/until/2016-03-31T08:00:00"
 );
 eventProcessor.subscribe();
 eventProcessor.listen();

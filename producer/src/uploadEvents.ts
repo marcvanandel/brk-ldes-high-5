@@ -1,7 +1,9 @@
 import { upload } from "./upload";
 
-// const delay = 20000;
-const delay = 0;
+
+
+const delay = 20000;
+// const delay = 0;
 
 upload("output/events-ld", delay).catch((e) => {
   console.error(e);
