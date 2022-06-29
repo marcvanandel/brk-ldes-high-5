@@ -2,7 +2,7 @@ import {
   EventStream,
   LDESClient,
   newEngine,
-  State
+  State,
 } from "@treecg/actor-init-ldes-client";
 
 export class EventProcessor {
@@ -18,9 +18,9 @@ export class EventProcessor {
   constructor(
     private readonly url: string,
     private readonly options: Object = {
-      representation: "Quads", //Object or Quads
       emitMemberOnce: true,
-      disableSynchronization: false,
+      mimeType: "application/ld+json",
+      disablePolling: true,
     }
   ) {}
 
