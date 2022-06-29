@@ -29,10 +29,16 @@ export async function upload(sourceFolder: string, msDelay: number = 0) {
   if (msDelay == 0) {
     console.log(`uploading files (without delay)`);
     await dataset.importFromFiles(files);
+    for await (let service of dataset.getServices()){
+      await service.update();
+    } 
   } else {
     for (const file of files) {
-      console.log(file);
+      console.log(`Uploading ${file}`);
       await dataset.importFromFiles([file]);
+      for await (let service of dataset.getServices()){
+        await service.update();
+      } 
       await delay(msDelay);
     }
   }
