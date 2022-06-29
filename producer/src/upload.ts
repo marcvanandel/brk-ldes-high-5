@@ -34,11 +34,20 @@ export async function upload(sourceFolder: string, msDelay: number = 0) {
     } 
   } else {
     for (const file of files) {
-      console.log(`Uploading ${file}`);
+
+      const content = await fs.readJson(file);
+      content['data'] = (content['data']).map((event:any)=>{
+        event['timestamp'] = new Date().toISOString();
+        return event;
+      }); 
+      await fs.writeJson(file, content);
+      console.log(`Uploading ${file} ...`);
       await dataset.importFromFiles([file]);
       for await (let service of dataset.getServices()){
+        console.log(`Updating SPARQL service ${(await service.getInfo()).name} ...`)
         await service.update();
       } 
+      console.log("Waiting for",msDelay/1000 ,'seconds...');
       await delay(msDelay);
     }
   }
