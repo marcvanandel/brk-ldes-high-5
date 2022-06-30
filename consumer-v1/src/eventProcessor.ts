@@ -26,8 +26,9 @@ const tasks:Array<()=>Promise<void>> = [];
 async function processTasks(){
   while (true){
     if (tasks.length > 0){
+      console.info(`Picking up a task. Number of remaining tasks: ${tasks.length}`)
       const task = tasks.pop()!;
-      await task();
+      await task()
     } 
     if (tasks.length === 0){
       // if there's no next task yet, wait half a second to avoid too busy waiting
@@ -87,17 +88,34 @@ export class EventProcessor {
     const eventstreamSync = this.eventstreamSync;
 
     eventstreamSync.on("data",  (member) => {
-      // pause the event stream, so we avoid any conflict with other events. 
-      // eventstreamSync.pause();
-      tasks.push(()=>processEvent(JSON.parse(member))
-      .then((result)=>fs.writeJSON(tmpFile, result))
-      .then(()=>dataset.importFromFiles([tmpFile]))
-      // If there's a service at the target dataset, then that should get updated here. 
-      .then(()=>console.info("Successfully uploaded."))
-      .catch((error)=>{
-        console.error(error);
-        process.exit(1);
-      }))
+      
+      // Here we push a task for processing the member (an LDES event) to a queue. 
+      // Processing involves constructing output triples and pushing these to the triple-store. 
+      // This queue is processed by an independent promise (a pseudo-thread). 
+      // We originally tried a different approach, where we first pause()
+      // the event stream, then do all processing, and then resume() it. 
+      // However this didn't work, the event stream would not resume. 
+      // Note that reading from the LDES service is faster than the processing of the task queue.
+      // Therefore, the  
+
+      tasks.push(
+        async () => {
+          try {
+            const inputJsonLD = JSON.parse(member);
+            const outputJsonLD = await processEvent(inputJsonLD);
+            // Some meaningful/recognizable graph name derived from the data.
+            // Here we use the IRI of the event. This field can also be left unspecified, 
+            // in which case an automatically generated graph name is used. 
+            const graphName = inputJsonLD["@id"] as string;
+            await fs.writeJSON(tmpFile, outputJsonLD);
+            await dataset.importFromFiles([tmpFile], {defaultGraphName: graphName});
+            console.info(`Successfully uploaded graph for event ${graphName}.`);
+          } catch (error){
+            console.error(error);
+            process.exit(1);
+          }
+        }
+      );
     });
 
     eventstreamSync.on("now only syncing", () => {
