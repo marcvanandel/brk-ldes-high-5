@@ -90,10 +90,9 @@ export class EventProcessor {
       // pause the event stream, so we avoid any conflict with other events. 
       // eventstreamSync.pause();
       tasks.push(()=>processEvent(JSON.parse(member))
-      .then(()=>fs.writeFile(tmpFile, member))
+      .then((result)=>fs.writeJSON(tmpFile, result))
       .then(()=>dataset.importFromFiles([tmpFile]))
       // If there's a service at the target dataset, then that should get updated here. 
-      .then(()=>eventstreamSync.resume())
       .then(()=>console.info("Successfully uploaded."))
       .catch((error)=>{
         console.error(error);
