@@ -8,6 +8,36 @@ import {
 import Client from "@triply/triplydb";
 import * as fs from "fs-extra";
 
+const client = Client.get({ token: process.env['TRIPLYDB_TOKEN_PLDN']});
+
+type JSONValue = string | number | boolean | JSONObject | JSONArray;
+interface JSONObject { [x: string]: JSONValue; }
+interface JSONArray extends Array<JSONValue> { }
+
+type JsonLD = JSONObject;
+
+async function processEvent(event:JsonLD): Promise<JsonLD>{
+  // TODO insert Marc's work here
+  return event;
+}
+
+const tasks:Array<()=>Promise<void>> = [];
+
+async function processTasks(){
+  while (true){
+    if (tasks.length > 0){
+      const task = tasks.pop()!;
+      await task();
+    } 
+    if (tasks.length === 0){
+      // if there's no next task yet, wait half a second to avoid too busy waiting
+      await new Promise((resolve)=>{
+        setTimeout(resolve, 500);
+      });
+    }
+  }
+}
+
 export class EventProcessor {
   // load previous state here (e.g. load from a json file on disk)
   // private previousState: State = {
@@ -28,63 +58,52 @@ export class EventProcessor {
   ) {}
 
   async subscribe() {
-    let LDESClient = newEngine() as LDESClient;
-
     console.log(`subscribing to url: [${this.url}]`);
-    if (this.previousState === undefined || this.previousState === null) {
-      // if you don't have a previous state, the created EventStream will start from scratch
-      this.eventstreamSync = LDESClient.createReadStream(
-        this.url,
-        this.options
-      );
-    } else {
-      // if you have a previous state, use it to create the EventStream
-      this.eventstreamSync = LDESClient.createReadStream(
-        this.url,
-        this.options,
-        this.previousState
-      );
-    }
+    // if you don't have a previous state, the created EventStream will start from scratch
+    // if you have a previous state, use it to create the EventStream
+    this.eventstreamSync = newEngine().createReadStream(
+      this.url,
+      this.options, 
+      this.previousState || undefined 
+    );
   }
 
   async listen() {
-    let eventstreamSync: EventStream;
     if (this.eventstreamSync === undefined) {
+      console.warn("Event stream undefined, not listening");
       return;
-    } else {
-      eventstreamSync = this.eventstreamSync;
-    }
-    console.log(process.env['TRIPLYDB_TOKEN_PLDN'])
-    // If the run takes longer than x minutes, pause the LDES Client
-    const timeoutms = 3600000; // amount of milliseconds before timeout
-    const timeout = setTimeout(() => this.eventstreamSync?.pause(), timeoutms);
-    const client = Client.get({ token: process.env['TRIPLYDB_TOKEN_PLDN']});
-    // use account
-    const account = await client.getAccount("high-5-ldes");
+    } 
 
-    // select dataset
+    processTasks().catch((error)=>{
+      console.error(error);
+      process.exit(1);
+    })
+
+    const account = await client.getAccount("high-5-ldes");
     const dataset = await account.getDataset("koers");
 
-    let counter = 1;
+    const tmpFile = `temporary-file.jsonld`;
+
+    const eventstreamSync = this.eventstreamSync;
+
     eventstreamSync.on("data",  (member) => {
-      eventstreamSync.pause();
-      const filename = `temporary-file-${counter}.jsonld`;
-      fs.writeFileSync(filename, member);
-      dataset.importFromFiles([filename]).then(()=>{eventstreamSync.resume()});
+      // pause the event stream, so we avoid any conflict with other events. 
+      // eventstreamSync.pause();
+      tasks.push(()=>processEvent(JSON.parse(member))
+      .then(()=>fs.writeFile(tmpFile, member))
+      .then(()=>dataset.importFromFiles([tmpFile]))
+      // If there's a service at the target dataset, then that should get updated here. 
+      .then(()=>eventstreamSync.resume())
+      .then(()=>console.info("Successfully uploaded."))
+      .catch((error)=>{
+        console.error(error);
+        process.exit(1);
+      }))
     });
-
-
-    // eventstreamSync.on("metadata", (metadata) => {
-    //   if (metadata.treeMetadata)
-    //     // follows the TREE metadata extractor structure (https://github.com/TREEcg/tree-metadata-extraction#extracted-metadata)
-    //     console.log(metadata.treeMetadata);
-    //   console.log(metadata.url); // page from where metadata has been extracted
-    // });
 
     eventstreamSync.on("now only syncing", () => {
       // All known pages have been fetched at least once when receiving this event.
       // This would be the point where we receive the `end` event in the `"disableSynchronization": true` equivalent
-      timeout.unref();
       eventstreamSync.pause();
     });
 
@@ -95,7 +114,6 @@ export class EventProcessor {
     });
 
     eventstreamSync.on("end", () => {
-      timeout.unref();
       console.log("No more data!");
     });
   }
