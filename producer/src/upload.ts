@@ -3,13 +3,13 @@ import * as fs from "fs-extra";
 
 require("dotenv").config();
 
-if (!process.env["TRIPLYDB_TOKEN"]) {
+if (!process.env["TRIPLYDB_TOKEN_KADASTER"]) {
   throw new Error(
-    "Must set TRIPLYDB_TOKEN environment variable. Obtain a token from a TriplyDB instance."
+    "Must set TRIPLYDB_TOKEN_KADASTER environment variable. Obtain a token from a TriplyDB instance."
   );
 }
 
-const client = Client.get({ token: process.env["TRIPLYDB_TOKEN"] });
+const client = Client.get({ token: process.env["TRIPLYDB_TOKEN_KADASTER"] });
 
 export async function delay(ms: any) {
   return await new Promise((resolve) => setTimeout(resolve, ms));
