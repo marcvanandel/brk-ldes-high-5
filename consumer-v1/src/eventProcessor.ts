@@ -4,6 +4,7 @@ import {
   newEngine,
   State,
 } from "@treecg/actor-init-ldes-client";
+import { BrkEventListener } from "./brk/BrkEventListener";
 
 export class EventProcessor {
   // load previous state here (e.g. load from a json file on disk)
@@ -14,6 +15,7 @@ export class EventProcessor {
   // };
   private previousState?: State = undefined;
   private eventstreamSync?: EventStream;
+  private readonly brkEventListener: BrkEventListener = new BrkEventListener();
 
   constructor(
     private readonly url: string,
@@ -21,6 +23,7 @@ export class EventProcessor {
       emitMemberOnce: true,
       mimeType: "application/ld+json",
       disablePolling: true,
+      loggingLevel: 'warn'
     }
   ) {}
 
@@ -57,7 +60,13 @@ export class EventProcessor {
     const timeout = setTimeout(() => this.eventstreamSync?.pause(), timeoutms);
 
     eventstreamSync.on("data", (member) => {
+      console.log("---data---");
       console.log(member);
+
+      let eventType = member["https://kadaster.nl/def/payloadType"];
+
+      // process into domain
+      this.brkEventListener.process(JSON.parse(member));
     });
 
     eventstreamSync.on("metadata", (metadata) => {
@@ -83,6 +92,7 @@ export class EventProcessor {
     eventstreamSync.on("end", () => {
       timeout.unref();
       console.log("No more data!");
+      this.brkEventListener.logState();
     });
   }
 }
