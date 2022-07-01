@@ -16,6 +16,7 @@ interface ZakelijkRecht {
 }
 
 interface Aandeel {
+  id: string;
   teller: number;
   noemer: number;
   personId: string;
@@ -76,6 +77,7 @@ export class BrkEventListener {
           if (zakelijkRecht != undefined) {
             let aandelen = this.getAandelenList(event).map((aandeelPart) => {
               let aandeel: Aandeel = {
+                id: this.getAandeelId(aandeelPart),
                 teller: this.getTeller(aandeelPart),
                 noemer: this.getNoemer(aandeelPart),
                 personId: this.getPersonId(aandeelPart),
@@ -169,6 +171,12 @@ export class BrkEventListener {
     } else {
       return [l];
     }
+  }
+  private getAandeelId(event: any) {
+    console.log(JSON.stringify(event, null, 2));
+    let teller = event["https://kadaster.nl/def/aandeel"]["@id"];
+    console.log("found teller [%s]", teller);
+    return teller;
   }
   private getTeller(event: any) {
     console.log(JSON.stringify(event, null, 2));
