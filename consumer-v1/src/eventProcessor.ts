@@ -123,7 +123,7 @@ export class EventProcessor {
         const account = await client.getAccount("high-5-ldes");
         const dataset = await account.getDataset("koers");
 
-        const tmpFile = `temporary-file.jsonld`;
+        const tmpFile = `temporary-file.ttl`;
 
         const writer = new Writer();
 
