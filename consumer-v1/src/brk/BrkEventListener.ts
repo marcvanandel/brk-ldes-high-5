@@ -1,4 +1,6 @@
-import { JsonLD } from "../types";
+import { Quad, DataFactory } from "n3";
+
+const { namedNode, quad, literal } = DataFactory;
 
 interface PerceelAggregate {
   aggregateId: string;
@@ -98,10 +100,23 @@ export class BrkEventListener {
     );
   }
 
-  public async getStateAsJsonLD(): Promise<JsonLD> {
-    return new Promise<JsonLD>((resove) => {
-      // TODO transform this.state into jsonLD
-    });
+  public writeState(): Quad[] {
+    const result: Quad[] = [];
+    result.push(
+      quad(
+        namedNode("https://example.com/subject"),
+        namedNode("https://example.com/pred"),
+        namedNode("https://example.com/object")
+      )
+    );
+    result.push(
+      quad(
+        namedNode("https://example.com/subject"),
+        namedNode("https://example.com/pred"),
+        literal(2)
+      )
+    );
+    return [];
   }
 
   private getKadastraleAanduiding(event: any): string {
