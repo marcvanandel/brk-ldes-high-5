@@ -1,26 +1,10 @@
-import {
-  EventStream, newEngine,
-  State
-} from "@treecg/actor-init-ldes-client";
+import { EventStream, newEngine, State } from "@treecg/actor-init-ldes-client";
 import { BrkEventListener } from "./brk/BrkEventListener";
 
 import Client from "@triply/triplydb";
 import * as fs from "fs-extra";
 
 const client = Client.get({ token: process.env["TRIPLYDB_TOKEN_PLDN"] });
-
-type JSONValue = string | number | boolean | JSONObject | JSONArray;
-interface JSONObject {
-  [x: string]: JSONValue;
-}
-interface JSONArray extends Array<JSONValue> {}
-
-type JsonLD = JSONObject;
-
-async function processEvent(event: JsonLD): Promise<JsonLD> {
-  // TODO insert Marc's work here
-  return event;
-}
 
 const tasks: Array<() => Promise<void>> = [];
 
@@ -51,7 +35,6 @@ export class EventProcessor {
   // };
   private previousState?: State = undefined;
   private eventstreamSync?: EventStream;
-  private readonly brkEventListener: BrkEventListener = new BrkEventListener();
 
   constructor(
     private readonly url: string,
@@ -60,7 +43,8 @@ export class EventProcessor {
       mimeType: "application/ld+json",
       disablePolling: true,
       loggingLevel: "warn",
-    }
+    },
+    private readonly brkEventListener: BrkEventListener = new BrkEventListener()
   ) {}
 
   async subscribe() {
@@ -85,39 +69,14 @@ export class EventProcessor {
       process.exit(1);
     });
 
-    const account = await client.getAccount("high-5-ldes");
-    const dataset = await account.getDataset("koers");
-
-    const tmpFile = `temporary-file.jsonld`;
-
     const eventstreamSync = this.eventstreamSync;
 
     eventstreamSync.on("data", (member) => {
-      // Here we push a task for processing the member (an LDES event) to a queue.
-      // Processing involves constructing output triples and pushing these to the triple-store.
-      // This queue is processed by an independent promise (a pseudo-thread).
-      // We originally tried a different approach, where we first pause()
-      // the event stream, then do all processing, and then resume() it.
-      // However this didn't work, the event stream would not resume.
-      // Note that reading from the LDES service is faster than the processing of the task queue.
-      // Therefore, the
-
       tasks.push(async () => {
         try {
           const inputJsonLD = JSON.parse(member);
-          const outputJsonLD = await processEvent(inputJsonLD);
           // process into domain
-          this.brkEventListener.process(JSON.parse(member));
-
-          // Some meaningful/recognizable graph name derived from the data.
-          // Here we use the IRI of the event. This field can also be left unspecified,
-          // in which case an automatically generated graph name is used.
-          const graphName = inputJsonLD["@id"] as string;
-          await fs.writeJSON(tmpFile, outputJsonLD);
-          await dataset.importFromFiles([tmpFile], {
-            defaultGraphName: graphName,
-          });
-          console.info(`Successfully uploaded graph for event ${graphName}.`);
+          this.brkEventListener.process(inputJsonLD);
         } catch (error) {
           console.error(error);
           process.exit(1);
@@ -135,11 +94,53 @@ export class EventProcessor {
       // Export current state, but only when paused!
       let state = eventstreamSync.exportState();
       // Save state here to reuse in a later run (e.g. save as a json file on disk)
+      this.previousState = state;
     });
 
     eventstreamSync.on("end", () => {
-      console.log("No more data!");
-      this.brkEventListener.logState();
+      tasks.push(async () => {
+        try {
+          console.log("No more data!");
+
+          if (true) {
+            const account = await client.getAccount("high-5-ldes");
+            const dataset = await account.getDataset("koers");
+
+            const tmpFile = `temporary-file.jsonld`;
+
+            // Here we push a task for processing the member (an LDES event) to a queue.
+            // Processing involves constructing output triples and pushing these to the triple-store.
+            // This queue is processed by an independent promise (a pseudo-thread).
+            // We originally tried a different approach, where we first pause()
+            // the event stream, then do all processing, and then resume() it.
+            // However this didn't work, the event stream would not resume.
+            // Note that reading from the LDES service is faster than the processing of the task queue.
+            // Therefore, the
+
+            const outputJsonLD = await this.brkEventListener.getStateAsJsonLD();
+
+            // Some meaningful/recognizable graph name derived from the data.
+            // Here we use the IRI of the event. This field can also be left unspecified,
+            // in which case an automatically generated graph name is used.
+            // const graphName = inputJsonLD["@id"] as string;
+
+            // fixed graph name of what it actually is ;-)
+            const graphName = "brk-state";
+            await fs.writeJSON(tmpFile, outputJsonLD);
+            await dataset.importFromFiles([tmpFile], {
+              defaultGraphName: graphName,
+            });
+            console.info(`Successfully uploaded graph for event ${graphName}.`);
+          } else {
+            console.warn(
+              "skipping publishing to PLDN (for testing purposes only!)"
+            );
+          }
+        } catch (error) {
+          console.error(error);
+          process.exit(1);
+        }
+      });
     });
   }
 }

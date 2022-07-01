@@ -1,7 +1,9 @@
+import { JsonLD } from "../types";
+
 export class BrkEventListener {
   private state = new Map();
 
-  public process(event: any) {
+  public async process(event: any): Promise<void> {
     try {
       //   console.log(JSON.stringify(event));
 
@@ -31,5 +33,9 @@ export class BrkEventListener {
       "processed event to this state:\n%s",
       JSON.stringify(this.state)
     );
+  }
+
+  public async getStateAsJsonLD(): Promise<JsonLD> {
+    return new Promise<JsonLD>((resove) => {});
   }
 }
