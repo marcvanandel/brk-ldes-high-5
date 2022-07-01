@@ -22,7 +22,7 @@ interface Aandeel {
 }
 
 export class BrkEventListener {
-  private state = new Map();
+  private state = new Map<string, PerceelAggregate>();
 
   public async process(event: any): Promise<void> {
     try {
@@ -34,7 +34,7 @@ export class BrkEventListener {
       if (aggregateId.includes("NL.IMKAD.KadastraalObject")) {
         console.info("working on aggregate [%s]", aggregateId);
 
-        let perceel: PerceelAggregate = this.state.get(aggregateId);
+        let perceel: PerceelAggregate = this.state.get(aggregateId)!;
         let eventType: string = event["https://kadaster.nl/def/payloadType"];
 
         if (perceel === undefined && !eventType.endsWith("PerceelOntstaan")) {
@@ -105,21 +105,23 @@ export class BrkEventListener {
 
   public writeState(): Quad[] {
     const result: Quad[] = [];
-    result.push(
-      quad(
-        namedNode("https://example.com/subject"),
-        namedNode("https://example.com/pred"),
-        namedNode("https://example.com/object")
-      )
-    );
-    result.push(
-      quad(
-        namedNode("https://example.com/subject"),
-        namedNode("https://example.com/pred"),
-        literal(2)
-      )
-    );
-    return [];
+    for (let aggregate of this.state.values()) {
+      result.push(
+        quad(
+          namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
+          namedNode(`https://kadaster.nl/brk/kadastraleAanduiding`),
+          namedNode(aggregate.kadastraleAanduiding)
+        )
+      );
+      result.push(
+        quad(
+          namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
+          namedNode(`https://kadaster.nl/brk/logischTijdstip`),
+          namedNode(aggregate.logischTijdstip)
+        )
+      );
+    }
+    return result;
   }
 
   private getKadastraleAanduiding(event: any): string {
@@ -156,18 +158,25 @@ export class BrkEventListener {
     ]["https://kadaster.nl/def/van"];
   }
   private getAandelenList(event: any): any[] {
-    return event["https://kadaster.nl/def/payload"][
-      "ns2:zakelijkRechtTenaamgesteld"
-    ]["https://kadaster.nl/def/verkregenAandelen"][
-      "https://kadaster.nl/def/aandeel"
-    ];
+    let l =
+      event["https://kadaster.nl/def/payload"][
+        "ns2:zakelijkRechtTenaamgesteld"
+      ]["https://kadaster.nl/def/verkregenAandelen"][
+        "https://kadaster.nl/def/aandeel"
+      ];
+    if (l.map) {
+      return l;
+    } else {
+      return [l];
+    }
   }
   private getTeller(event: any) {
+    console.log(JSON.stringify(event, null, 2));
     let teller =
       event["https://kadaster.nl/def/aandeel"][
         "https://kadaster.nl/def/teller"
       ];
-    console.log("found teller [%s]");
+    console.log("found teller [%s]", teller);
     return teller;
   }
   private getNoemer(event: any) {
