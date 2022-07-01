@@ -3,6 +3,7 @@ import { BrkEventListener } from "./brk/BrkEventListener";
 
 import Client from "@triply/triplydb";
 import * as fs from "fs-extra";
+import { Writer } from "n3";
 
 const client = Client.get({ token: process.env["TRIPLYDB_TOKEN_PLDN"] });
 
@@ -105,7 +106,7 @@ export class EventProcessor {
         try {
           console.log("No more data!");
 
-          if (false) {
+          if (true) {
             const account = await client.getAccount("high-5-ldes");
             const dataset = await account.getDataset("koers");
 
@@ -120,7 +121,16 @@ export class EventProcessor {
             // Note that reading from the LDES service is faster than the processing of the task queue.
             // Therefore, the
 
-            const outputJsonLD = await this.brkEventListener.getStateAsJsonLD();
+            const writer = new Writer();
+
+            const outputQuads = this.brkEventListener.writeState();
+            const serializedQuads = writer.quadsToString(outputQuads);
+
+            await fs.writeFile(tmpFile, serializedQuads);
+            const graphName = "brk-state";
+            await dataset.importFromFiles([tmpFile], {
+              defaultGraphName: graphName,
+            });
 
             // Some meaningful/recognizable graph name derived from the data.
             // Here we use the IRI of the event. This field can also be left unspecified,
@@ -128,12 +138,8 @@ export class EventProcessor {
             // const graphName = inputJsonLD["@id"] as string;
 
             // fixed graph name of what it actually is ;-)
-            const graphName = "brk-state";
-            await fs.writeJSON(tmpFile, outputJsonLD);
-            await dataset.importFromFiles([tmpFile], {
-              defaultGraphName: graphName,
-            });
-            console.info(`Successfully uploaded graph for event ${graphName}.`);
+            // await fs.writeJSON(tmpFile, outputQuads);
+            // console.info(`Successfully uploaded graph for event ${graphName}.`);
           } else {
             console.warn(
               "skipping publishing to PLDN (for testing purposes only!)"
