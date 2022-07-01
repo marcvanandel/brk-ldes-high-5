@@ -16,6 +16,11 @@ const eventProcessor = new EventProcessor(
 eventProcessor.subscribe();
 eventProcessor.listen();
 
+app.get("/upload", (req, res) => {
+  eventProcessor.startUpload();
+  res.send("Upload triggered ...");
+});
+
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);
 });

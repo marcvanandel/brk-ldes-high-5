@@ -42,14 +42,6 @@ export class BrkEventListener {
           return;
         }
 
-        console.log(
-          `eventType [${eventType}] on aggregate: \n${JSON.stringify(
-            perceel,
-            null,
-            2
-          )}`
-        );
-
         if (perceel === undefined && eventType.endsWith("PerceelOntstaan")) {
           let eigendom: ZakelijkRecht = {
             id: this.getEigendomId(event),
@@ -62,7 +54,7 @@ export class BrkEventListener {
             zakelijkeRechten: [eigendom],
           };
           this.state.set(aggregateId, perceel);
-          console.info("created aggregate: [%s]", JSON.stringify(perceel));
+          console.info("created aggregate: [%s]", JSON.stringify(perceel, null, 2));
         }
 
         if (
@@ -85,11 +77,14 @@ export class BrkEventListener {
               return aandeel;
             });
             zakelijkRecht.aandelen = aandelen;
-            console.info("updated aggregate: [%s]", JSON.stringify(perceel));
+            console.info("updated aggregate: [%s]", perceel.aggregateId);
           }
         }
 
-        console.info("current aggregate: [%s]", JSON.stringify(perceel));
+        console.info(
+          "current aggregate: [%s]",
+          JSON.stringify(perceel, null, 2)
+        );
       }
     } catch (error) {
       console.warn(error);
@@ -133,13 +128,13 @@ export class BrkEventListener {
           )
         )
       );
-      for (const zr of aggregate.zakelijkeRechten){
+      for (const zr of aggregate.zakelijkeRechten) {
         writer.addQuad(
           namedNode(`https://kadaster.nl/brk/zakelijkRecht/${zr.id}`),
           namedNode(`https://kadaster.nl/brk/type`),
           literal(zr.type)
         );
-        if (zr.aandelen?.length){
+        if (zr.aandelen?.length) {
           writer.addQuad(
             namedNode(`https://kadaster.nl/brk/zakelijkRecht/${zr.id}`),
             namedNode(`https://kadaster.nl/brk/aandelen`),
@@ -150,8 +145,8 @@ export class BrkEventListener {
                 )
               )
             )
-          )
-          for (const aandeel of zr.aandelen){
+          );
+          for (const aandeel of zr.aandelen) {
             writer.addQuad(
               namedNode(
                 `https://kadaster.nl/brk/aandeel/${aandeel.id}` as string
@@ -165,14 +160,14 @@ export class BrkEventListener {
               ),
               namedNode(`https://kadaster.nl/brk/noemer`),
               literal(aandeel.noemer)
-            )
+            );
             writer.addQuad(
               namedNode(
                 `https://kadaster.nl/brk/aandeel/${aandeel.id}` as string
               ),
               namedNode(`https://kadaster.nl/brk/personId`),
               literal(aandeel.personId)
-            )
+            );
           }
         }
       }

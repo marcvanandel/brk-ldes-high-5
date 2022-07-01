@@ -106,35 +106,47 @@ export class EventProcessor {
         try {
           console.log("No more data!");
 
-          const account = await client.getAccount("high-5-ldes");
-          const dataset = await account.getDataset("koers");
-
-          const tmpFile = `temporary-file.jsonld`;
-
-          const writer = new Writer();
-
-          this.brkEventListener.writeState(writer);
-          const serializedQuads: string = await new Promise(
-            (resolve, reject) => {
-              writer.end((error, result) => {
-                if (error) {
-                  reject(error);
-                } else {
-                  resolve(result);
-                }
-              });
-            }
-          );
-
-          await fs.writeFile(tmpFile, serializedQuads);
-          await dataset.importFromFiles([tmpFile], {
-            defaultGraphName: "https://kadaster.nl/graphs/brk-state",
-          });
+          this.startUpload();
         } catch (error) {
           console.error(error);
           process.exit(1);
         }
       });
+    });
+  }
+
+  async startUpload(): Promise<void> {
+    tasks.push(async () => {
+      try {
+        console.log("Starting upload ...");
+
+        const account = await client.getAccount("high-5-ldes");
+        const dataset = await account.getDataset("koers");
+
+        const tmpFile = `temporary-file.jsonld`;
+
+        const writer = new Writer();
+
+        this.brkEventListener.writeState(writer);
+        const serializedQuads: string = await new Promise((resolve, reject) => {
+          writer.end((error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          });
+        });
+
+        await fs.writeFile(tmpFile, serializedQuads);
+        await dataset.importFromFiles([tmpFile], {
+          defaultGraphName: "https://kadaster.nl/graphs/brk-state",
+        });
+        console.log("Uploading done.");
+      } catch (error) {
+        console.error(error);
+        process.exit(1);
+      }
     });
   }
 }
