@@ -1,6 +1,6 @@
-import { Quad, DataFactory } from "n3";
+import { Quad, DataFactory, Writer } from "n3";
 
-const { namedNode, quad, literal } = DataFactory;
+const { namedNode, quad, literal, blankNode } = DataFactory;
 
 interface PerceelAggregate {
   aggregateId: string;
@@ -105,25 +105,78 @@ export class BrkEventListener {
     );
   }
 
-  public writeState(): Quad[] {
-    const result: Quad[] = [];
+  public writeState(writer: Writer): void {
+    // const result: Quad[] = [];
     for (let aggregate of this.state.values()) {
-      result.push(
-        quad(
-          namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
-          namedNode(`https://kadaster.nl/brk/kadastraleAanduiding`),
-          namedNode(aggregate.kadastraleAanduiding)
+      writer.addQuad(
+        namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
+        namedNode(`https://kadaster.nl/brk/kadastraleAanduiding`),
+        literal(aggregate.kadastraleAanduiding)
+      );
+      writer.addQuad(
+        namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
+        namedNode(`https://kadaster.nl/brk/logischTijdstip`),
+        literal(
+          aggregate.logischTijdstip,
+          namedNode("http://www.w3.org/2001/XMLSchema#dateTime")
         )
       );
-      result.push(
-        quad(
-          namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
-          namedNode(`https://kadaster.nl/brk/logischTijdstip`),
-          namedNode(aggregate.logischTijdstip)
+
+      writer.addQuad(
+        namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
+        namedNode("https://kadaster.nl/brk/zakelijkeRechten"),
+        writer.list(
+          aggregate.zakelijkeRechten.map((zr) =>
+            namedNode(
+              `https://kadaster.nl/brk/zakelijkRecht/${zr.id}` as string
+            )
+          )
         )
       );
+      for (const zr of aggregate.zakelijkeRechten){
+        writer.addQuad(
+          namedNode(`https://kadaster.nl/brk/zakelijkRecht/${zr.id}`),
+          namedNode(`https://kadaster.nl/brk/type`),
+          literal(zr.type)
+        );
+        if (zr.aandelen?.length){
+          writer.addQuad(
+            namedNode(`https://kadaster.nl/brk/zakelijkRecht/${zr.id}`),
+            namedNode(`https://kadaster.nl/brk/aandelen`),
+            writer.list(
+              zr.aandelen.map((aandeel) =>
+                namedNode(
+                  `https://kadaster.nl/brk/aandeel/${aandeel.id}` as string
+                )
+              )
+            )
+          )
+          for (const aandeel of zr.aandelen){
+            writer.addQuad(
+              namedNode(
+                `https://kadaster.nl/brk/aandeel/${aandeel.id}` as string
+              ),
+              namedNode(`https://kadaster.nl/brk/teller`),
+              literal(aandeel.teller)
+            );
+            writer.addQuad(
+              namedNode(
+                `https://kadaster.nl/brk/aandeel/${aandeel.id}` as string
+              ),
+              namedNode(`https://kadaster.nl/brk/noemer`),
+              literal(aandeel.noemer)
+            )
+            writer.addQuad(
+              namedNode(
+                `https://kadaster.nl/brk/aandeel/${aandeel.id}` as string
+              ),
+              namedNode(`https://kadaster.nl/brk/personId`),
+              literal(aandeel.personId)
+            )
+          }
+        }
+      }
     }
-    return result;
   }
 
   private getKadastraleAanduiding(event: any): string {

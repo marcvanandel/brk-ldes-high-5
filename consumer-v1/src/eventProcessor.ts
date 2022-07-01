@@ -3,7 +3,7 @@ import { BrkEventListener } from "./brk/BrkEventListener";
 
 import Client from "@triply/triplydb";
 import * as fs from "fs-extra";
-import { Writer } from "n3";
+import { Quad, Writer } from "n3";
 
 const client = Client.get({ token: process.env["TRIPLYDB_TOKEN_PLDN"] });
 
@@ -123,14 +123,25 @@ export class EventProcessor {
 
             const writer = new Writer();
 
-            const outputQuads = this.brkEventListener.writeState();
-            const serializedQuads = writer.quadsToString(outputQuads);
+            this.brkEventListener.writeState(writer);
+            const serializedQuads = await new Promise((resolve, reject)=>{
+
+              writer.end((error, result) => {
+                if (error){
+                  reject(error)
+                } else {
+                  resolve(result);
+                }
+              });
+            })
+
+            console.log(serializedQuads)
 
             await fs.writeFile(tmpFile, serializedQuads);
             const graphName = "brk-state";
-            await dataset.importFromFiles([tmpFile], {
-              defaultGraphName: graphName,
-            });
+            // await dataset.importFromFiles([tmpFile], {
+            //   defaultGraphName: graphName,
+            // });
 
             // Some meaningful/recognizable graph name derived from the data.
             // Here we use the IRI of the event. This field can also be left unspecified,
