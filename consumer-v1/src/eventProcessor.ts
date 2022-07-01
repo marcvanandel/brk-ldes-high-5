@@ -106,57 +106,30 @@ export class EventProcessor {
         try {
           console.log("No more data!");
 
-          if (true) {
-            const account = await client.getAccount("high-5-ldes");
-            const dataset = await account.getDataset("koers");
+          const account = await client.getAccount("high-5-ldes");
+          const dataset = await account.getDataset("koers");
 
-            const tmpFile = `temporary-file.jsonld`;
+          const tmpFile = `temporary-file.jsonld`;
 
-            // Here we push a task for processing the member (an LDES event) to a queue.
-            // Processing involves constructing output triples and pushing these to the triple-store.
-            // This queue is processed by an independent promise (a pseudo-thread).
-            // We originally tried a different approach, where we first pause()
-            // the event stream, then do all processing, and then resume() it.
-            // However this didn't work, the event stream would not resume.
-            // Note that reading from the LDES service is faster than the processing of the task queue.
-            // Therefore, the
+          const writer = new Writer();
 
-            const writer = new Writer();
-
-            this.brkEventListener.writeState(writer);
-            const serializedQuads = await new Promise((resolve, reject)=>{
-
+          this.brkEventListener.writeState(writer);
+          const serializedQuads: string = await new Promise(
+            (resolve, reject) => {
               writer.end((error, result) => {
-                if (error){
-                  reject(error)
+                if (error) {
+                  reject(error);
                 } else {
                   resolve(result);
                 }
               });
-            })
+            }
+          );
 
-            console.log(serializedQuads)
-
-            await fs.writeFile(tmpFile, serializedQuads);
-            const graphName = "brk-state";
-            // await dataset.importFromFiles([tmpFile], {
-            //   defaultGraphName: graphName,
-            // });
-
-            // Some meaningful/recognizable graph name derived from the data.
-            // Here we use the IRI of the event. This field can also be left unspecified,
-            // in which case an automatically generated graph name is used.
-            // const graphName = inputJsonLD["@id"] as string;
-
-            // fixed graph name of what it actually is ;-)
-            // await fs.writeJSON(tmpFile, outputQuads);
-            // console.info(`Successfully uploaded graph for event ${graphName}.`);
-          } else {
-            console.warn(
-              "skipping publishing to PLDN (for testing purposes only!)"
-            );
-            this.brkEventListener.logState();
-          }
+          await fs.writeFile(tmpFile, serializedQuads);
+          await dataset.importFromFiles([tmpFile], {
+            defaultGraphName: "https://kadaster.nl/graphs/brk-state",
+          });
         } catch (error) {
           console.error(error);
           process.exit(1);
