@@ -72,12 +72,15 @@ export class BrkEventListener {
             (r) => r.id === van
           )!;
           if (zakelijkRecht != undefined) {
-            let aandeel: Aandeel = {
-              teller: this.getTeller(event),
-              noemer: this.getNoemer(event),
-              personId: this.getPersonId(event),
-            };
-            zakelijkRecht.aandelen = [aandeel];
+            let aandelen = this.getAandelenList(event).map((aandeelPart) => {
+              let aandeel: Aandeel = {
+                teller: this.getTeller(aandeelPart),
+                noemer: this.getNoemer(aandeelPart),
+                personId: this.getPersonId(aandeelPart),
+              };
+              return aandeel;
+            });
+            zakelijkRecht.aandelen = aandelen;
             console.info("updated aggregate: [%s]", JSON.stringify(perceel));
           }
         }
@@ -137,45 +140,34 @@ export class BrkEventListener {
       "ns2:zakelijkRechtTenaamgesteld"
     ]["https://kadaster.nl/def/van"];
   }
-  private getTeller(event: any) {
-    let teller =
-      event["https://kadaster.nl/def/payload"][
-        "ns2:zakelijkRechtTenaamgesteld"
-      ]["https://kadaster.nl/def/verkregenAandelen"][
-        "https://kadaster.nl/def/aandeel"
-      ]["https://kadaster.nl/def/aandeel"]["https://kadaster.nl/def/teller"];
-    console.log(
-      "found teller [%s] in event \n%s",
-      teller,
-      JSON.stringify(
-        event["https://kadaster.nl/def/payload"][
-          "ns2:zakelijkRechtTenaamgesteld"
-        ]["https://kadaster.nl/def/verkregenAandelen"][
-          "https://kadaster.nl/def/aandeel"
-        ],
-        null,
-        2
-      )
-    );
-    return teller;
-  }
-  private getNoemer(event: any) {
-    let noemer =
-      event["https://kadaster.nl/def/payload"][
-        "ns2:zakelijkRechtTenaamgesteld"
-      ]["https://kadaster.nl/def/verkregenAandelen"][
-        "https://kadaster.nl/def/aandeel"
-      ]["https://kadaster.nl/def/aandeel"]["https://kadaster.nl/def/noemer"];
-    console.log("found noemer [%s]", noemer);
-    return noemer;
-  }
-  private getPersonId(event: any) {
+  private getAandelenList(event: any): any[] {
     return event["https://kadaster.nl/def/payload"][
       "ns2:zakelijkRechtTenaamgesteld"
     ]["https://kadaster.nl/def/verkregenAandelen"][
       "https://kadaster.nl/def/aandeel"
-    ]["https://kadaster.nl/def/geldtVoor"][
-      "https://kadaster.nl/def/tenaamstelling"
-    ]["https://kadaster.nl/def/tenNameVan"];
+    ];
+  }
+  private getTeller(event: any) {
+    let teller =
+      event["https://kadaster.nl/def/aandeel"][
+        "https://kadaster.nl/def/teller"
+      ];
+    console.log("found teller [%s]");
+    return teller;
+  }
+  private getNoemer(event: any) {
+    let noemer =
+      event["https://kadaster.nl/def/aandeel"][
+        "https://kadaster.nl/def/noemer"
+      ];
+    console.log("found noemer [%s]", noemer);
+    return noemer;
+  }
+  private getPersonId(event: any) {
+    return event["https://kadaster.nl/def/aandeel"][
+      "https://kadaster.nl/def/geldtVoor"
+    ]["https://kadaster.nl/def/tenaamstelling"][
+      "https://kadaster.nl/def/tenNameVan"
+    ];
   }
 }
