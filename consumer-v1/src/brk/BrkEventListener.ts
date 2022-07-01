@@ -1,4 +1,4 @@
-import { Quad, DataFactory } from "n3";
+import { DataFactory, Quad } from "n3";
 
 const { namedNode, quad, literal } = DataFactory;
 
@@ -173,18 +173,22 @@ export class BrkEventListener {
     }
   }
   private getAandeelId(event: any) {
-    console.log(JSON.stringify(event, null, 2));
-    let teller = event["https://kadaster.nl/def/aandeel"]["@id"];
-    console.log("found teller [%s]", teller);
-    return teller;
+    let aandeelId = event["https://kadaster.nl/def/aandeelId"];
+    if (aandeelId === undefined) {
+      console.log("found aandeelId [%s]", aandeelId);
+      console.log(JSON.stringify(event, null, 2));
+    }
+    return aandeelId;
   }
   private getTeller(event: any) {
-    console.log(JSON.stringify(event, null, 2));
     let teller =
       event["https://kadaster.nl/def/aandeel"][
         "https://kadaster.nl/def/teller"
       ];
-    console.log("found teller [%s]", teller);
+    if (teller === undefined) {
+      console.log("found teller [%s]", teller);
+      console.log(JSON.stringify(event, null, 2));
+    }
     return teller;
   }
   private getNoemer(event: any) {
@@ -192,14 +196,15 @@ export class BrkEventListener {
       event["https://kadaster.nl/def/aandeel"][
         "https://kadaster.nl/def/noemer"
       ];
-    console.log("found noemer [%s]", noemer);
+    if (noemer === undefined) {
+      console.log("found noemer [%s]", noemer);
+      console.log(JSON.stringify(event, null, 2));
+    }
     return noemer;
   }
   private getPersonId(event: any) {
-    return event["https://kadaster.nl/def/aandeel"][
-      "https://kadaster.nl/def/geldtVoor"
-    ]["https://kadaster.nl/def/tenaamstelling"][
-      "https://kadaster.nl/def/tenNameVan"
-    ];
+    return event["https://kadaster.nl/def/geldtVoor"][
+      "https://kadaster.nl/def/tenaamstelling"
+    ]["https://kadaster.nl/def/tenNameVan"];
   }
 }

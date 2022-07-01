@@ -12,9 +12,9 @@ const tasks: Array<() => Promise<void>> = [];
 async function processTasks() {
   while (true) {
     if (tasks.length > 0) {
-      console.info(
-        `Picking up a task. Number of remaining tasks: ${tasks.length}`
-      );
+      // console.debug(
+      //   `Picking up a task. Number of remaining tasks: ${tasks.length}`
+      // );
       const task = tasks.shift()!;
       await task().catch((e) => {
         console.warn(e);
@@ -46,7 +46,7 @@ export class EventProcessor {
       emitMemberOnce: true,
       mimeType: "application/ld+json",
       disablePolling: true,
-      loggingLevel: "info",
+      loggingLevel: "warn",
     },
     private readonly brkEventListener: BrkEventListener = new BrkEventListener()
   ) {}
