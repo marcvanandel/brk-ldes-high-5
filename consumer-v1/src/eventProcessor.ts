@@ -14,8 +14,11 @@ async function processTasks() {
       console.info(
         `Picking up a task. Number of remaining tasks: ${tasks.length}`
       );
-      const task = tasks.pop()!;
-      await task();
+      const task = tasks.shift()!;
+      await task().catch((e) => {
+        console.warn(e);
+        process.exit(1);
+      });
     }
     if (tasks.length === 0) {
       // if there's no next task yet, wait half a second to avoid too busy waiting
@@ -42,7 +45,7 @@ export class EventProcessor {
       emitMemberOnce: true,
       mimeType: "application/ld+json",
       disablePolling: true,
-      loggingLevel: "warn",
+      loggingLevel: "info",
     },
     private readonly brkEventListener: BrkEventListener = new BrkEventListener()
   ) {}
@@ -102,7 +105,7 @@ export class EventProcessor {
         try {
           console.log("No more data!");
 
-          if (true) {
+          if (false) {
             const account = await client.getAccount("high-5-ldes");
             const dataset = await account.getDataset("koers");
 
@@ -135,6 +138,7 @@ export class EventProcessor {
             console.warn(
               "skipping publishing to PLDN (for testing purposes only!)"
             );
+            this.brkEventListener.logState();
           }
         } catch (error) {
           console.error(error);
