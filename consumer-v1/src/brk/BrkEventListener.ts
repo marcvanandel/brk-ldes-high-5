@@ -5,6 +5,7 @@ const { namedNode, quad, literal, blankNode } = DataFactory;
 interface PerceelAggregate {
   aggregateId: string;
   kadastraleAanduiding: string;
+  coordinaten: string;
   logischTijdstip: string;
   zakelijkeRechten: ZakelijkRecht[];
 }
@@ -27,8 +28,6 @@ export class BrkEventListener {
 
   public async process(event: any): Promise<void> {
     try {
-      //   console.log(JSON.stringify(event));
-
       let aggregateId: string =
         event["https://kadaster.nl/def/aggregateIdentifier"]["@id"];
 
@@ -43,6 +42,8 @@ export class BrkEventListener {
         }
 
         if (perceel === undefined && eventType.endsWith("PerceelOntstaan")) {
+          // console.log(JSON.stringify(event));
+
           let eigendom: ZakelijkRecht = {
             id: this.getEigendomId(event),
             type: "Eigendom",
@@ -50,11 +51,15 @@ export class BrkEventListener {
           perceel = {
             aggregateId: aggregateId,
             kadastraleAanduiding: this.getKadastraleAanduiding(event),
+            coordinaten: this.getCoordinaten(event),
             logischTijdstip: this.getLogischTijdstip(event),
             zakelijkeRechten: [eigendom],
           };
           this.state.set(aggregateId, perceel);
-          console.info("created aggregate: [%s]", JSON.stringify(perceel, null, 2));
+          console.info(
+            "created aggregate: [%s]",
+            JSON.stringify(perceel, null, 2)
+          );
         }
 
         if (
@@ -114,6 +119,13 @@ export class BrkEventListener {
         literal(
           aggregate.logischTijdstip,
           namedNode("http://www.w3.org/2001/XMLSchema#dateTime")
+        )
+      );
+      writer.addQuad(
+        namedNode(`https://kadaster.nl/brk/id/${aggregate.aggregateId}`),
+        namedNode(`https://kadaster.nl/brk/coordinaten`),
+        literal(
+          aggregate.coordinaten
         )
       );
 
@@ -197,16 +209,25 @@ export class BrkEventListener {
       "https://kadaster.nl/def/eventIdentificatie"
     ]["https://kadaster.nl/def/logischTijdstip"];
   }
+
+  private getCoordinaten(event: any) {
+    return event["https://kadaster.nl/def/payload"]["ns2:perceelOntstaan"][
+      "https://kadaster.nl/def/coordinaten"
+    ];
+  }
+
   private getEigendomId(event: any) {
     return event["https://kadaster.nl/def/payload"]["ns2:perceelOntstaan"][
       "https://kadaster.nl/def/eigendomId"
     ];
   }
+
   private getVan(event: any) {
     return event["https://kadaster.nl/def/payload"][
       "ns2:zakelijkRechtTenaamgesteld"
     ]["https://kadaster.nl/def/van"];
   }
+
   private getAandelenList(event: any): any[] {
     let l =
       event["https://kadaster.nl/def/payload"][
@@ -220,6 +241,7 @@ export class BrkEventListener {
       return [l];
     }
   }
+
   private getAandeelId(event: any) {
     let aandeelId = event["https://kadaster.nl/def/aandeelId"];
     if (aandeelId === undefined) {
@@ -228,6 +250,7 @@ export class BrkEventListener {
     }
     return aandeelId;
   }
+
   private getTeller(event: any) {
     let teller =
       event["https://kadaster.nl/def/aandeel"][
@@ -239,6 +262,7 @@ export class BrkEventListener {
     }
     return teller;
   }
+
   private getNoemer(event: any) {
     let noemer =
       event["https://kadaster.nl/def/aandeel"][
@@ -250,6 +274,7 @@ export class BrkEventListener {
     }
     return noemer;
   }
+
   private getPersonId(event: any) {
     return event["https://kadaster.nl/def/geldtVoor"][
       "https://kadaster.nl/def/tenaamstelling"

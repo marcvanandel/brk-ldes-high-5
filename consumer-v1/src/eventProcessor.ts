@@ -120,9 +120,6 @@ export class EventProcessor {
       try {
         console.log("Starting upload ...");
 
-        const account = await client.getAccount("high-5-ldes");
-        const dataset = await account.getDataset("koers");
-
         const tmpFile = `temporary-file.ttl`;
 
         const writer = new Writer();
@@ -139,6 +136,12 @@ export class EventProcessor {
         });
 
         await fs.writeFile(tmpFile, serializedQuads);
+
+        console.log(`exported state to [${tmpFile}]`);
+
+        const account = await client.getAccount("high-5-ldes");
+        const dataset = await account.getDataset("koers");
+
         await dataset.importFromFiles([tmpFile], {
           defaultGraphName: "https://kadaster.nl/graphs/brk-state",
         });
