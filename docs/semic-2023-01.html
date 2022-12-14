@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>LDES @ BRK | Kadaster.nl</title>
+
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <a href="https://labs.kadaster.nl" class="logo" target="_blank">
+        <img src="images/kadaster.svg" alt="Kadaster.nl" />
+      </a>
+      <div class="slides">
+        <section>
+          <h3>LDES @ BRK | Kadaster.nl</h3>
+          <p>SEMIC Webinar Jan 17th, 2023</p>
+        </section>
+
+        <section>
+          <h3>LDES @ Base Registry</h3>
+          <p>(e.g. Topographical)</p>
+          <a href="https://youtu.be/82rr5dnvYFM" target="_blank">
+            <img data-src="images/kadaster-bgt-ldes-demo.png" />
+          </a>
+        </section>
+
+        <section>
+          <h3>LD Architecture @ Base Registry</h3>
+          <div class="r-stack">
+            <img
+              style="margin-top: 0; max-height: 70%"
+              class="white-background fragment semi-fade-out"
+              data-fragment-index="0"
+              data-src="images/hoogover-kg-architectuur.png"
+            />
+            <span
+              style="margin-top: 25%"
+              class="fragment fade-in r-fit-text"
+              data-fragment-index="0"
+            >
+              What about updates?
+            </span>
+          </div>
+        </section>
+
+        <section>
+          <section>
+            <h3>Transfer of Ownership</h3>
+            <p style="font-family: monospace; color: gray; font-size: x-large">
+              &lt;Land Administration Domain&gt;
+            </p>
+            <img data-src="images/EventThinking-00-Domain.png" />
+          </section>
+          <section>
+            <h3>Event Sourced Base Registry</h3>
+            <img
+              width="50%"
+              data-src="images/EventThinking-07-CEQ-SingleModel.png"
+            />
+            <img
+              width="50%"
+              data-src="images/EventThinking-08-CEQ-FilledModel.png"
+            />
+          </section>
+          <section>
+            <h3>Paradigm Shift</h3>
+            <p>From Single Model to Commands, Events & Queries</p>
+            <img data-src="images/EventThinking-00-ParadigmShift.png" />
+          </section>
+          <section>
+            <h3>Paper way</h3>
+            <img data-src="images/EventThinking-01-PaperWay.png" />
+          </section>
+          <section>
+            <h3>Digital way</h3>
+            <img data-src="images/EventThinking-02-DigitalWay.png" />
+          </section>
+          <section>
+            <h3>Command</h3>
+            <img data-src="images/EventThinking-03-Command.png" />
+          </section>
+          <section>
+            <h3>Mental process | Step #1</h3>
+            <img data-src="images/EventThinking-04-Validation.png" />
+          </section>
+          <section>
+            <h3>Mental process | Step #2</h3>
+            <img data-src="images/EventThinking-05-Changes.png" />
+          </section>
+          <section>
+            <h3>Transfer of Ownership</h3>
+            <img data-src="images/EventThinking-06-OwnerView.png" />
+          </section>
+          <section>
+            <h3>Event Sourced</h3>
+            <img
+              width="50%"
+              data-src="images/EventThinking-07-CEQ-SingleModel.png"
+            />
+            <img
+              width="50%"
+              data-src="images/EventThinking-08-CEQ-FilledModel.png"
+            />
+          </section>
+          <section>
+            <h3>Multiple Query Views</h3>
+            <img
+              class="stretch"
+              data-src="images/EventThinking-09-CEQ-MultipleQueries.png"
+            />
+          </section>
+        </section>
+
+        <section>
+          <h3>LDES @ Base Registry Land Administration</h3>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
